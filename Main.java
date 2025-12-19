@@ -95,7 +95,29 @@ public class Main {
     }
 
 
-    public static int bestDayOfMonth(int month) { return (month < 0 || month >= MONTHS) ? -1 : 1234; }
+    public static int bestDayOfMonth(int month) {
+        if (month < 0 || month >= MONTHS) {
+            return -1;
+        }
+
+        int maxProfit = Integer.MIN_VALUE;
+        int bestDay = 1;
+
+        for (int d = 0; d < DAYS; d++) {
+            int dailyTotal = 0;
+
+            for (int c = 0; c < COMMS; c++) {
+                dailyTotal += profits[month][d][c];
+            }
+
+            if (dailyTotal > maxProfit) {
+                maxProfit = dailyTotal;
+                bestDay = d + 1; // 0-based → 1-based
+            }
+        }
+
+        return bestDay;
+    }
     public static String bestMonthForCommodity(String comm) { return "DUMMY"; }
     public static int consecutiveLossDays(String comm) { return 1234; }
     public static int daysAboveThreshold(String comm, int threshold) { return 1234; }

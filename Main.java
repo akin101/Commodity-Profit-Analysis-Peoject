@@ -213,11 +213,70 @@ public class Main {
         return count;
     }
     public static int biggestDailySwing(int month) {
-        return 1234;
+        if (month < 0 || month >= MONTHS) {
+            return -99999;
+        }
+
+        int maxSwing = 0;
+
+        int prevTotal = 0;
+        for (int c = 0; c < COMMS; c++) {
+            prevTotal += profits[month][0][c];
+        }
+
+        for (int d = 1; d < DAYS; d++) {
+            int currTotal = 0;
+            for (int c = 0; c < COMMS; c++) {
+                currTotal += profits[month][d][c];
+            }
+
+            int swing = Math.abs(currTotal - prevTotal);
+            if (swing > maxSwing) {
+                maxSwing = swing;
+            }
+
+            prevTotal = currTotal;
+        }
+
+        return maxSwing;
     }
+
     public static String compareTwoCommodities(String c1, String c2) {
-        return "DUMMY is better by 1234";
+        int index1 = -1;
+        int index2 = -1;
+
+        for (int c = 0; c < COMMS; c++) {
+            if (commodities[c].equals(c1)) {
+                index1 = c;
+            }
+            if (commodities[c].equals(c2)) {
+                index2 = c;
+            }
+        }
+
+        if (index1 == -1 || index2 == -1) {
+            return "INVALID_COMMODITY";
+        }
+
+        int total1 = 0;
+        int total2 = 0;
+
+        for (int m = 0; m < MONTHS; m++) {
+            for (int d = 0; d < DAYS; d++) {
+                total1 += profits[m][d][index1];
+                total2 += profits[m][d][index2];
+            }
+        }
+
+        if (total1 > total2) {
+            return c1 + " is better by " + (total1 - total2);
+        } else if (total2 > total1) {
+            return c2 + " is better by " + (total2 - total1);
+        } else {
+            return "Both commodities performed equally";
+        }
     }
+
     public static String bestWeekOfMonth(int month) {
         return "DUMMY";
     }

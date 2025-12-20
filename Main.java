@@ -278,12 +278,35 @@ public class Main {
     }
 
     public static String bestWeekOfMonth(int month) {
-        return "DUMMY";
+        if (month < 0 || month >= MONTHS) {
+            return "INVALID_MONTH";
+        }
+
+        int maxProfit = Integer.MIN_VALUE;
+        int bestWeek = 0;
+
+        for (int w = 0; w < 4; w++) {
+            int weeklyTotal = 0;
+
+            for (int d = w * 7; d < w * 7 + 7; d++) {
+                for (int c = 0; c < COMMS; c++) {
+                    weeklyTotal += profits[month][d][c];
+                }
+            }
+
+            if (weeklyTotal > maxProfit) {
+                maxProfit = weeklyTotal;
+                bestWeek = w;
+            }
+        }
+
+        return "Week " + (bestWeek + 1);
     }
 
-    public static void main(String[] args) {
-        loadData();
 
+    public static void main(String[] args) {
+
+        loadData();
     }
 }
  
